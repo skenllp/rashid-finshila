@@ -7,6 +7,7 @@
 <meta property="og:title" content="Rashid &amp; Finshila — Wedding">
 <meta property="og:description" content="You are invited to the Wedding of Rashid &amp; Finshila.">
 <meta property="og:image" content="https://rashid-finshila.vercel.app/og.jpg">
+<link rel="preload" href="envelope.mp4" as="video" type="video/mp4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Tangerine:wght@400;700&family=Playfair+Display+SC:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;500&family=Amiri&display=swap">
 <style>
@@ -194,7 +195,7 @@ h2.script{font-size:2.6rem;line-height:1.2}
 <!-- 2. Video plays right after the tap -->
 <div class="vid" id="vid">
   <div class="stage">
-    <video id="video" src="envelope.mp4" poster="opening.jpg" playsinline webkit-playsinline preload="auto"></video>
+    <video id="video" poster="opening.jpg" playsinline webkit-playsinline preload="metadata" crossorigin="anonymous"><source src="envelop.mp4" type="video/mp4"></video>
     <button class="skip caps" id="skip" type="button">Skip</button>
   </div>
 </div>
@@ -203,7 +204,7 @@ h2.script{font-size:2.6rem;line-height:1.2}
 
   <!-- Hero -->
   <section class="hero">
-    <video class="hero-vid" src="hero.mp4" autoplay loop muted playsinline></video>
+    <video class="hero-vid" loop muted playsinline webkit-playsinline preload="none" crossorigin="anonymous" data-src="hero.mp4"></video>
     <img class="fl tl" src="floral.webp" alt="">
     <img class="fl tr" src="floral.webp" alt="">
     <img class="fl bl" src="floral.webp" alt="">
@@ -315,39 +316,83 @@ var CONFIG = {
 
 var $ = function(id){ return document.getElementById(id); };
 var gate=$('gate'), vid=$('vid'), video=$('video'), page=$('page'), revealed=false, started=false;
+var revealTimer=null;
 
 /* ===== Opening image -> video -> invitation ===== */
 function start(){
   if(started) return; started=true;
   gate.classList.add('off');
   vid.classList.add('on');
-  video.currentTime=0; video.muted=false;
-  var p=video.play();
-  if(p&&p.catch) p.catch(function(){ video.muted=true; video.play().catch(reveal); });
+
+  revealTimer=setTimeout(reveal, 15000);
+
+  function tryPlay(muted){
+    video.muted=muted;
+    try{ video.currentTime=0; }catch(e){}
+    var p=video.play();
+    if(p&&p.then){
+      p.then(function(){
+        if(!muted) revealTimer=clearTimeout(revealTimer)||setTimeout(reveal, 15000);
+      }).catch(function(){
+        if(!muted) tryPlay(true);
+        else reveal();
+      });
+    }
+  }
+
+  if(video.readyState>=2){
+    tryPlay(false);
+  } else {
+    video.addEventListener('canplay',function h(){ video.removeEventListener('canplay',h); tryPlay(false); },{once:true});
+    video.load();
+    setTimeout(function(){ if(!video.readyState) reveal(); }, 8000);
+  }
 }
 function reveal(){
   if(revealed) return; revealed=true;
-  video.pause();
+  if(revealTimer) clearTimeout(revealTimer);
+  try{ video.pause(); }catch(e){}
   vid.classList.remove('on'); vid.classList.add('off');
   document.body.classList.remove('locked');
   window.scrollTo(0,0);
   page.classList.add('show');
   setTimeout(observe,200);
+  setTimeout(initHeroVideo,500);
   var a=$('bgm'); a.play().then(function(){ $('mus').classList.remove('paused'); }).catch(function(){});
 }
+
+function initHeroVideo(){
+  var hv=document.querySelector('.hero-vid');
+  if(!hv||!hv.dataset.src) return;
+  var s=document.createElement('source');
+  s.src=hv.dataset.src; s.type='video/mp4';
+  hv.appendChild(s);
+  hv.load();
+  var hp=hv.play();
+  if(hp&&hp.catch) hp.catch(function(){
+    hv.muted=true;
+    var r=hv.play(); if(r&&r.catch) r.catch(function(){});
+  });
+}
+
 gate.addEventListener('click',start);
+gate.addEventListener('touchend',function(e){ e.preventDefault(); start(); });
 $('skip').addEventListener('click',function(e){ e.stopPropagation(); reveal(); });
 video.addEventListener('ended',reveal);
 video.addEventListener('error',reveal);
-video.load();
+video.addEventListener('stalled',function(){ setTimeout(function(){ if(!revealed && video.paused) reveal(); }, 5000); });
+
+if(video.readyState<1) video.load();
 
 /* ===== Music button (appears only if music.mp3 exists) ===== */
 var bgm=$('bgm'), mus=$('mus');
-bgm.addEventListener('canplay',function(){ mus.classList.add('show'); });
-bgm.addEventListener('loadedmetadata',function(){ mus.classList.add('show'); });
-bgm.load();
+function showMus(){ mus.classList.add('show'); }
+bgm.addEventListener('canplay',showMus);
+bgm.addEventListener('loadedmetadata',showMus);
+bgm.addEventListener('error',function(){ mus.classList.remove('show'); });
+try{ bgm.load(); }catch(e){}
 mus.addEventListener('click',function(){
-  if(bgm.paused){ bgm.play(); mus.classList.remove('paused'); } else { bgm.pause(); mus.classList.add('paused'); }
+  if(bgm.paused){ bgm.play().catch(function(){}); mus.classList.remove('paused'); } else { bgm.pause(); mus.classList.add('paused'); }
 });
 
 /* ===== Scroll reveal ===== */
