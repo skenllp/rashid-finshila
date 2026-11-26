@@ -11,7 +11,6 @@ window.INVITE = {
      mapUrl: leave out for an automatic Google Maps search of the venue, paste your own link,
      or set to "" to hide the map link. */
   events: [
-    { name: "Nikkah",    date: "2026-12-26", venue: "MMO Auditorium", place: "Mukkam" },
     { name: "Reception", date: "2026-12-27", venue: "MM Royal Grand", place: "Kizhuparamba" }
   ],
 
