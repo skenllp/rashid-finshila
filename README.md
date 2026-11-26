@@ -11,7 +11,7 @@ A static site (no build step). Open `index.html` through any web server, or depl
 | `app.js` | Opening sequence, countdown, calendar, program, RSVP, music, scroll reveal |
 | `config.js` | **All wedding details and options. Edit this file.** |
 | `Code.gs` | Optional Google Apps Script that saves RSVPs to a Google Sheet |
-| `assets/` | `opening.jpg` + `envelop.mp4` (opening), `hero.mp4` + `couple-poster.jpg` (couple video), `hero.png`, `band-1/2.jpg` (petal backgrounds) |
+| `assets/` | `cover.jpg` + `intro.mp4` (opening), `hero.mp4` + `couple-poster.jpg` (couple video), `hero.png`, `band-1/2.jpg` (petal backgrounds) |
 | `og.jpg` | Link-preview image |
 
 ## Common edits (all in `config.js`)

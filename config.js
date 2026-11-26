@@ -32,7 +32,7 @@ window.INVITE = {
 
   /* Background music. Drop a file next to index.html (e.g. "assets/music.mp3") and set the path here.
      "" = no music button. */
-  music: "",
+  music: "assets/reel.mp3",
 
   /* Couple video shown in the arch frame (leave "" to use a photo instead). */
   portraitVideo: "assets/hero.mp4",

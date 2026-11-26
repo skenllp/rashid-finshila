@@ -130,6 +130,7 @@ const openInvite=()=>{
   if(opened)return finish();
   opened=true;
   cover.classList.add('playing');
+  startMusic(); /* the tap unlocks audio, so the song starts with the opening */
   if(reduceMotion)return finish();
   safety=setTimeout(finish,15000);
   op.addEventListener('ended',finish,{once:true});
@@ -169,7 +170,7 @@ function reveal(){if(!('IntersectionObserver' in window))return;
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target);}}),{threshold:.12});
   document.querySelectorAll('.rv').forEach(s=>{if(s.getBoundingClientRect().top>innerHeight){s.classList.add('pre');io.observe(s);}});}
 
-/* ---------- RSVP (commented out) ----------
+/* ---------- RSVP ---------- */
 const yes=$('#yes'),no=$('#no'),toast=$('#toast'),rForm=$('#rsvp'),rSubmit=$('#rSubmit');
 const att=v=>{yes.setAttribute('aria-pressed',v);no.setAttribute('aria-pressed',!v);$('#cntWrap').hidden=!v;};
 yes.onclick=()=>att(true);no.onclick=()=>att(false);
@@ -209,5 +210,4 @@ rForm.addEventListener('submit',async e=>{
   toast.className='toast success';toast.textContent='Thank you, '+name+'!';
   rSubmit.textContent='Thank you!';rSubmit.disabled=true;
 });
-*/
 })();
