@@ -44,10 +44,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .hero.show .in{opacity:1;transform:none}
 .hero .bless{font:400 24px/1.4 "Amiri",serif;color:var(--gold-text);direction:rtl;margin-bottom:8px}
 .hero .cap{letter-spacing:.2em;text-wrap:balance}
-.mono{position:relative;height:78px;margin:22px auto 6px;width:110px}
-.mono span{position:absolute;top:0;font:400 76px/1 var(--script);color:var(--gold);line-height:1}
-.mono span:first-child{left:10px}
-.mono span:last-child{right:10px;top:6px;color:var(--gold2);opacity:.92}
+.mono{position:relative;height:100px;margin:22px auto 6px;width:170px}
+.mono span{position:absolute;top:0;font:400 92px/1 var(--script);color:var(--gold-text);line-height:1}
+.mono span:first-child{left:6px}
+.mono span:last-child{right:6px;top:8px;color:var(--gold)}
 .names{font:400 min(54px,13.5vw)/1.15 "Allura",cursive;color:var(--gold-text);white-space:nowrap}
 .names span,.names em{display:block}
 .names em{font:400 .6em/1.2 "Allura",cursive}
