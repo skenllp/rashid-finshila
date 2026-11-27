@@ -11,7 +11,7 @@ window.INVITE = {
      mapUrl: leave out for an automatic Google Maps search of the venue, paste your own link,
      or set to "" to hide the map link. */
   events: [
-    { name: "Reception", date: "2026-12-27", venue: "MM Royal Grand", place: "Kizhuparamba" }
+    { name: "Reception", date: "2026-12-27", time: "10 AM onwards", venue: "MM Royal Grand", place: "Kizhuparamba" }
   ],
 
   groomParents: "Mr Beeran KT and Mrs Bushrath NT",

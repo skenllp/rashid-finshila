@@ -22,7 +22,7 @@ const heroEv=$('#heroEvents');
 const diamond=()=>{const d=el('div','dia');d.innerHTML='<i></i><b></b><i></i>';return d;};
 events.forEach((e,i)=>{
   if(i)heroEv.append(diamond());
-  heroEv.append(el('div','cap',e.name+' · '+e.weekday),el('div','hdate',e.dateTitle),el('div','cap',e.venue+', '+e.place));
+  heroEv.append(el('div','cap',e.name+' · '+e.weekday),el('div','hdate',e.dateTitle+(e.time?' · '+e.time:'')),el('div','cap',e.venue+', '+e.place));
 });
 
 /* date block + month grid (highlights every event day in the month) */
@@ -48,7 +48,7 @@ const gcal=d=>d.toISOString().slice(0,10).replace(/-/g,'');
 events.forEach(e=>{
   $('#prog').append(el('div','day',e.weekday+' · '+e.dateTitle));
   const it=el('div','item');
-  it.append(el('div','t',e.name),el('div','n',e.venue),el('div','a',e.place));
+  it.append(el('div','t',e.name+(e.time?' · '+e.time:'')),el('div','n',e.venue),el('div','a',e.place));
   const links=el('div','links');
   if(e.mapUrl){const a=el('a','link','View map →');a.href=e.mapUrl;a.target='_blank';a.rel='noopener';links.append(a);}
   const c=el('a','link','Add to calendar');c.target='_blank';c.rel='noopener';
