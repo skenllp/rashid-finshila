@@ -15,7 +15,7 @@ window.INVITE = {
   ],
 
   groomParents: "Mr Beeran KT and Mrs Bushrath NT",
-  brideParents: "Mr Ali and Mrs Sulaikha",
+  brideParents: "Mr Ali and Mrs Saleena",
 
   rsvpDeadline: "30 November 2026",
 
